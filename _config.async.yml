@@ -1,0 +1,24 @@
+user:
+  name: Leila
+  first_name: Leila
+  last_name:
+  email: leila@leila.com
+  domain: https://leila.github.io/
+  avatar: /img/avatar.jpg
+  describe: 网站简介。
+  rule_text: -。-
+banner:
+  default:
+    type: img
+    bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
+    banner_title: I am a slow walker,<br>but I never walk backward.
+    banner_text: Hi my new friend!
+  index:
+    banner_title: I am a slow walker,<br>but I never walk backward.
+  archive:
+    banner_title: I am a slow walker,<br>but I never walk backward.
+sidebar:
+  social:
+footer:
+  powered:
+    enable: true
