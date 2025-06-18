@@ -2,7 +2,7 @@ user:
   name: Leila
   first_name: Leila
   last_name:
-  email: leila@leila.com
+  email: leila329@163.com
   domain: https://leila.github.io/
   avatar: /img/avatar.jpg
   describe: 网站简介。
@@ -22,3 +22,9 @@ sidebar:
 footer:
   powered:
     enable: true
+toc:
+  enable: true
+  list_number: true
+  post_title: false
+  max_depth: 3
+  min_depth: 1

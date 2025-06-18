@@ -1,12 +1,16 @@
 ---
 title: 深入 UmiJS：构建业务权限控制
 date: 2025-05-26 09:58:12
-tags: React
+tags:
+  - React
+  - UmiJS
+categories:
+  - React
 ---
 
 # 背景
 
-> 项目环境：  React + UmiJS
+> 项目环境： React + UmiJS
 
 常见的权限控制方式有如下：
 
@@ -21,55 +25,56 @@ tags: React
 **权限数据来源**：由接口提供页面权限和功能权限
 
 **现成可选的权限控制方案：**
-1. [UmiJS中Access 的使用](https://umijs.org/docs/max/access)
-2. [在Route层做权限拦截](https://umijs.org/docs/guides/routes#wrappers)
 
+1. [UmiJS 中 Access 的使用](https://umijs.org/docs/max/access)
+2. [在 Route 层做权限拦截](https://umijs.org/docs/guides/routes#wrappers)
 
 # 设计与实现
 
+## access 设计
 
-## access设计
 **思路**
-1. 在页面初始化阶段将权限数据存放在initialState中
+
+1. 在页面初始化阶段将权限数据存放在 initialState 中
 2. 对页面权限和组件权限分别做判断
 
 **实现代码**
 `src/access.ts`
-```tsx
 
+```tsx
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
 export default function access(initialState: Record<string, any>) {
-  const { accessInfo } = initialState
+  const { accessInfo } = initialState;
 
   /**
    * 检查当前用户是否拥有权限： 包含了操作权限和页面权限
    */
   const checkAccess = (access: string | number | (string | number)[]) => {
-    const { list: accessList = [], isGlobalRight } = accessInfo ?? {}
+    const { list: accessList = [], isGlobalRight } = accessInfo ?? {};
 
     // 有全部的权限
-    if (isGlobalRight) return true
+    if (isGlobalRight) return true;
 
-    if (!access) return false
+    if (!access) return false;
 
-    const accessArray = Array.isArray(access) ? access : [access]
+    const accessArray = Array.isArray(access) ? access : [access];
     // (包含角色管理-权限列表)
-    return accessArray.some((item) => accessList.includes(item))
-  }
+    return accessArray.some((item) => accessList.includes(item));
+  };
 
   /**
    * 检查当前用户是否拥有页面权限
    */
   const checkPageAccess = (access: string | number | (string | number)[]) => {
-    const { pageAccessKeys = [] } = accessInfo ?? {}
+    const { pageAccessKeys = [] } = accessInfo ?? {};
 
-    if (!access) return true
-    const accessArray = Array.isArray(access) ? access : [access]
+    if (!access) return true;
+    const accessArray = Array.isArray(access) ? access : [access];
     // (包含首页、角色管理-权限列表)
-    return accessArray.some((item) => pageAccessKeys.includes(item))
-  }
+    return accessArray.some((item) => pageAccessKeys.includes(item));
+  };
 
   return {
     /**
@@ -81,15 +86,14 @@ export default function access(initialState: Record<string, any>) {
      * 检查当前用户是否拥有页面权限
      */
     checkPageAccess,
-  }
+  };
 }
-
 ```
-
 
 ## 页面权限
 
 **思路**
+
 1. 通过 wrappers 包一层路由判断
 2. router 加上 accessKey，通过 useRouteProps 取
 3. 校验方式：校验是否存在当前 code
@@ -97,7 +101,8 @@ export default function access(initialState: Record<string, any>) {
 **实现代码**
 
 `routes.ts`
-```tsx 
+
+```tsx
 {
   path: '/game',
   name: 'game',
@@ -117,6 +122,7 @@ export default function access(initialState: Record<string, any>) {
 ```
 
 `src/wrappers/auth.tsx`
+
 ```tsx
 import { useKeepAliveContext } from "@/layout/keepalive";
 import NoPermissionPage from "@/pages/403";
@@ -166,9 +172,11 @@ export default () => {
 ```
 
 ## 组件权限
+
 **思路**：通过 access 提供的函数来查询当前 code 是否有权限
 
 **实现代码**
+
 ```tsx
 const { checkAccess } = useAccess()
 ...
@@ -177,13 +185,13 @@ const { checkAccess } = useAccess()
  </Button>
 ```
 
-
 ## 受影响功能
 
 1. 菜单搜索功能：无权限的菜单不可检索，主要针对不在菜单内的三四级页面
-    1. checkAccess(code) 是否满足，不满足时移除数据
+   1. checkAccess(code) 是否满足，不满足时移除数据
 2. 收藏夹：不做处理，页面访问时可以显示 403 即可
 
 # 总结
-1. 了解RBAC的管理下，权限需要前后台共同来配合
+
+1. 了解 RBAC 的管理下，权限需要前后台共同来配合
 2. 借助现有轮子来实现需求

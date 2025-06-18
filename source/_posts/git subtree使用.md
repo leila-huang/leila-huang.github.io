@@ -1,7 +1,11 @@
 ---
 title: git subtree使用
 date: 2025-05-22 16:00:12
-tags: React
+tags:
+  - git
+  - subtree
+categories:
+  - git
 ---
 
 ## 前言
