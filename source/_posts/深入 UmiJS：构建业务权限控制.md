@@ -4,8 +4,10 @@ date: 2025-05-26 09:58:12
 tags:
   - React
   - UmiJS
+  - 权限控制
+  - RBAC
 categories:
-  - React
+  - 前端工程化
 ---
 
 # 背景

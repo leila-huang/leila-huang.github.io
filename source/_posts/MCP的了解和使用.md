@@ -3,8 +3,10 @@ title: MCP的了解和使用
 date: 2025-06-18 17:26:49
 comments: true
 tags:
-  - ai
-  - mcp
+  - MCP
+  - LLM
+  - Agent
+  - Cursor
 categories:
   - AI
 ---
